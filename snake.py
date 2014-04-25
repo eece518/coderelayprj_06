@@ -36,9 +36,9 @@ def readnum():
 def changenum(direc):
     numjson = readnum()
     if direc == 1:
-        numjson["val"] += 10
+        numjson["val"] += 30
     else:
-        numjson["val"] -= 10
+        numjson["val"] -= 30
         if numjson['val'] < 0:
             numjson['val'] = 0
     with open("static/num.json", "w") as fobj:

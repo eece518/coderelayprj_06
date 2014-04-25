@@ -1,7 +1,7 @@
-xc.depends(["static/component/creatJS/core", "static/component/creatJS/lib/createjs"], function() {
+xc.depends(["component/creatJS/core", "component/creatJS/lib/createjs"], function() {
 	var src;
 	function init() {
-		src = "static/component/sound/rain.ogg";
+		src = "component/sound/rain.mp3";
 		createjs.Sound.addEventListener("loadComplete", createjs.proxy(playSound, this));
 		createjs.Sound.registerSound(src);
 	}
@@ -14,12 +14,6 @@ xc.depends(["static/component/creatJS/core", "static/component/creatJS/lib/creat
 
 	init();
 });
-
-	setInterval(
-		function(){
-			updateSpeed()
-		},2000
-	);
 
 function Rc(r, c) {
 	this.row = r;
@@ -40,17 +34,14 @@ var x = 0;
 var y = 1;
 var dot;
 var displayBox = 0;
-var selectClass = "select";
-var dotClass = "dot";
-
 function init(c, r) {
 
 	scene = new Array();
 
 	var show = $(".show");
 	show.css({
-		width : c * 12,
-		height : r * 12
+		width : c * 7,
+		height : r * 7
 	});
 	for (var a = 0; a < r; a++) {
 		scene[a] = new Array();
@@ -65,26 +56,17 @@ function init(c, r) {
 
 function showdot() {
 	var gap = $("span").not($(".select"));
-	dot = gap.eq(random(gap.size())).addClass(dotClass);
+	dot = gap.eq(random(gap.size())).addClass("dot");
 
 }
 
-function updateSpeed() {  
+function getSpeed(event) {
 	$.ajax({
 		type : "GET",
-		url : "/getnum",
+		url : "localhost:5000/getnum",
 	}).done(function(ajax) {
-		var resp = $.parseJSON(ajax); 
-		
-		if(((space)-(resp.val))!=0){
-			if (selectClass == 'select')
-				selectClass = 'select1'; 
-			else 
-				selectClass = "select";
-		}
-		
-		space=resp.val; 
-		console.log(space);
+		var resp = $.parseJSON(ajax);
+		alert(resp.val);
 	});
 };
 
@@ -106,13 +88,12 @@ function showcar() {
 		return;
 	}
 	$(".select").removeClass("select");
-	$(".select").removeClass("select1");
-	$("span").removeClass("select1");
+
 	car.pop();
 	car.splice(0, 0, one);
 
 	for (var a = 0; a < car.length - 1; a++) {
-		scene[car[a].row][car[a].col].addClass(selectClass);
+		scene[car[a].row][car[a].col].addClass("select");
 	}
 	var rcNode = scene[rc.row][rc.col];
 	if (rcNode.hasClass("dot")) {
@@ -123,7 +104,7 @@ function showcar() {
 
 		car.push(new Rc(last.row, last.col));
 
-		rcNode.removeClass(dotClass);
+		rcNode.removeClass("dot");
 
 		//play
 
