@@ -4,11 +4,6 @@ import json
 
 app = Flask(__name__)
 
-
-
-
-
-
 @app.route('/')
 def root():
     print 2222
