@@ -40,6 +40,9 @@ var x = 0;
 var y = 1;
 var dot;
 var displayBox = 0;
+var selectClass = "select";
+var dotClass = "dot";
+
 function init(c, r) {
 
 	scene = new Array();
@@ -62,7 +65,7 @@ function init(c, r) {
 
 function showdot() {
 	var gap = $("span").not($(".select"));
-	dot = gap.eq(random(gap.size())).addClass("dot");
+	dot = gap.eq(random(gap.size())).addClass(dotClass);
 
 }
 
@@ -72,6 +75,14 @@ function updateSpeed() {
 		url : "/getnum",
 	}).done(function(ajax) {
 		var resp = $.parseJSON(ajax); 
+		
+		if(((space)-(resp.val))!=0){
+			if (selectClass == 'select')
+				selectClass = 'select1'; 
+			else 
+				selectClass = "select";
+		}
+		
 		space=resp.val; 
 		console.log(space);
 	});
@@ -95,12 +106,13 @@ function showcar() {
 		return;
 	}
 	$(".select").removeClass("select");
-
+	$(".select").removeClass("select1");
+	$("span").removeClass("select1");
 	car.pop();
 	car.splice(0, 0, one);
 
 	for (var a = 0; a < car.length - 1; a++) {
-		scene[car[a].row][car[a].col].addClass("select");
+		scene[car[a].row][car[a].col].addClass(selectClass);
 	}
 	var rcNode = scene[rc.row][rc.col];
 	if (rcNode.hasClass("dot")) {
@@ -111,7 +123,7 @@ function showcar() {
 
 		car.push(new Rc(last.row, last.col));
 
-		rcNode.removeClass("dot");
+		rcNode.removeClass(dotClass);
 
 		//play
 
