@@ -18,12 +18,6 @@ def getnum():
     resp = readnum()
     return json.dumps(resp)
 
-
-
-
-
-
-
 @app.route('/incnum')
 def incnum():
     num = changenum(1)
