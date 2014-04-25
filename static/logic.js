@@ -115,7 +115,7 @@ function showcar() {
 
 		//play
 
-		//document.getElementById('audiotag1').play();
+		document.getElementById('audiotag1').play();
 
 		showdot();
 	}
